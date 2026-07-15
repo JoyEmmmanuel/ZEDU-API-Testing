@@ -1,0 +1,1923 @@
+{
+  "info": {
+    "_postman_id": "c7797d28-b87c-48e5-9419-4c0fd87f9603",
+    "name": "Zedu API Testing",
+    "description": "Professional API testing project for the Zedu platform.\n\nThis collection demonstrates REST API testing using Postman, including authentication, request validation, response assertions, negative testing, and token management.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54026505"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "item": [
+            {
+              "name": "TC_AUTH_001",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code should be 201 Created\", function () {\r",
+                      "    pm.response.to.have.status(201);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Success message should be correct\", function () {\r",
+                      "    const jsonData = pm.response.json();\r",
+                      "    pm.expect(jsonData.message).to.eql(\"User Created Successfully\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Response status should be success\", function () {\r",
+                      "    const jsonData = pm.response.json();\r",
+                      "    pm.expect(jsonData.status).to.eql(\"success\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Access token should exist\", function () {\r",
+                      "    const jsonData = pm.response.json();\r",
+                      "    pm.expect(jsonData.data.access_token).to.exist;\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Returned email should match request\", function () {\r",
+                      "    const jsonData = pm.response.json();\r",
+                      "    pm.expect(jsonData.data.user.email)\r",
+                      "        .to.eql(\"jay78000@gmail.com\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"username\": \"ebonyiabaliki\",\r\n    \"email\": \"jay78000@gmail.com\",\r\n    \"password\": \"gggblllooono11\",\r\n    \"first_name\": \"gggeerrrrre\",\r\n    \"last_name\": \"emmaaaere\",\r\n    \"phone_number\": \"08154569544\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/register",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_002",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const jsonData = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Status code should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Response status should be error\", function () {\r",
+                      "    pm.expect(jsonData.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Status code field should be 400\", function () {\r",
+                      "    pm.expect(jsonData.status_code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Phone duplication message returned\", function () {\r",
+                      "    pm.expect(jsonData.message)\r",
+                      "      .to.include(\"phone\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"username\": \"ebonyiabaliki\",\r\n    \"email\": \"jay78000@gmail.com\",\r\n    \"password\": \"gggblllooono11\",\r\n    \"first_name\": \"gggeerrrrre\",\r\n    \"last_name\": \"emmaaaere\",\r\n    \"phone_number\": \"08154569544\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/register",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_004",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const jsonData = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Status code should be 422\", function () {\r",
+                      "    pm.response.to.have.status(422);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Response status should be error\", function () {\r",
+                      "    pm.expect(jsonData.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Validation failed message returned\", function () {\r",
+                      "    pm.expect(jsonData.message).to.eql(\"Validation failed\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Email required error returned\", function () {\r",
+                      "    pm.expect(\r",
+                      "        jsonData.error[\"CreateUserRequestModel.email\"]\r",
+                      "    ).to.eql(\"email is a required field\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"qauser\",\r\n  \"password\": \"Password123\",\r\n  \"first_name\": \"QA\",\r\n  \"last_name\": \"Tester\",\r\n  \"phone_number\": \"08012345678\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/register",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_003",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const jsonData = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Status code should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Response status should be error\", function () {\r",
+                      "    pm.expect(jsonData.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Status code field should be 400\", function () {\r",
+                      "    pm.expect(jsonData.status_code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Duplicate email message returned\", function () {\r",
+                      "    pm.expect(jsonData.message)\r",
+                      "      .to.include(\"Email\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"badtester\",\r\n  \"email\": \"emanueljoy3000@gmail.com\",\r\n  \"password\": \"560978\",\r\n  \"first_name\": \"derajoy\",\r\n  \"last_name\": \"emmalll\",\r\n  \"phone_number\": \"08014660004\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/register",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_005",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const jsonData = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Status code should be 422\", function () {\r",
+                      "    pm.response.to.have.status(422);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Response status should be error\", function () {\r",
+                      "    pm.expect(jsonData.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Validation failed message returned\", function () {\r",
+                      "    pm.expect(jsonData.message).to.eql(\"Validation failed\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Password required error returned\", function () {\r",
+                      "    pm.expect(\r",
+                      "        jsonData.error[\"CreateUserRequestModel.password\"]\r",
+                      "    ).to.exist;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"username\": \"bughuntero\",\r\n  \"email\": \"chichi567@gmail.com\",\r\n  \"first_name\": \"christo\",\r\n  \"last_name\": \"kelvino\",\r\n  \"phone_number\": \"07014663334\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/register",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "item": [
+            {
+              "name": "TC_AUTH_006",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Convert response to JSON\r",
+                      "let response = pm.response.json();\r",
+                      "\r",
+                      "// ===============================\r",
+                      "// Status Code Validation\r",
+                      "// ===============================\r",
+                      "pm.test(\"Status code should be 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "// ===============================\r",
+                      "// Response Validation\r",
+                      "// ===============================\r",
+                      "pm.test(\"Response status should be success\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"success\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Login message should be correct\", function () {\r",
+                      "    pm.expect(response.message).to.eql(\"user login successfully\");\r",
+                      "});\r",
+                      "\r",
+                      "// ===============================\r",
+                      "// Data Validation\r",
+                      "// ===============================\r",
+                      "pm.test(\"Access token should exist\", function () {\r",
+                      "    pm.expect(response.data.access_token).to.exist;\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"User object should exist\", function () {\r",
+                      "    pm.expect(response.data.user).to.exist;\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Email should match login request\", function () {\r",
+                      "    pm.expect(response.data.user.email).to.eql(\"jay78000@gmail.com\");\r",
+                      "});\r",
+                      "\r",
+                      "// ===============================\r",
+                      "// Save Token\r",
+                      "// ===============================\r",
+                      "pm.environment.set(\"access_token\", response.data.access_token);\r",
+                      "\r",
+                      "pm.test(\"Access token saved to environment\", function () {\r",
+                      "    pm.expect(pm.environment.get(\"access_token\"))\r",
+                      "      .to.eql(response.data.access_token);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n   \r\n    \"email\": \"jay78000@gmail.com\",\r\n    \"password\": \"gggblllooono11\"\r\n   \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_007",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Verify HTTP Status Code\r",
+                      "pm.test(\"Status code is 400 Bad Request\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Verify response is JSON\r",
+                      "pm.test(\"Response is JSON\", function () {\r",
+                      "    pm.response.to.be.json;\r",
+                      "});\r",
+                      "\r",
+                      "var response = pm.response.json();\r",
+                      "\r",
+                      "// Verify status field\r",
+                      "pm.test(\"Status is error\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Verify application status code\r",
+                      "pm.test(\"Application status_code is 400\", function () {\r",
+                      "    pm.expect(response.status_code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Verify error message\r",
+                      "pm.test(\"Error message is 'invalid email and password supplied'\", function () {\r",
+                      "    pm.expect(response.message).to.eql(\"invalid email and password supplied\");\r",
+                      "});\r",
+                      "\r",
+                      "// Verify no access token is returned\r",
+                      "pm.test(\"Access token is not returned\", function () {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});\r",
+                      "\r",
+                      "// Verify error object exists\r",
+                      "pm.test(\"Error object exists\", function () {\r",
+                      "    pm.expect(response.error).to.be.an(\"object\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"jay78000@gmail.com\",\r\n    \"password\": \"gggblllooono1\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_008",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Response status should be error\", function () {\r",
+                      "    const jsonData = pm.response.json();\r",
+                      "    pm.expect(jsonData.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Error message should be 'invalid credentials'\", function () {\r",
+                      "    const jsonData = pm.response.json();\r",
+                      "    pm.expect(jsonData.message).to.eql(\"invalid credentials\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Access token should not exist\", function () {\r",
+                      "    const jsonData = pm.response.json();\r",
+                      "    pm.expect(jsonData.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"joyqa987654321@gmail.com\",\r\n    \"password\": \"Password123!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_010",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Response status should be error\", function () {\r",
+                      "    const jsonData = pm.response.json();\r",
+                      "    pm.expect(jsonData.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Message should be Validation failed\", function () {\r",
+                      "    const jsonData = pm.response.json();\r",
+                      "    pm.expect(jsonData.message).to.eql(\"Validation failed\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Email validation error should exist\", function () {\r",
+                      "    const jsonData = pm.response.json();\r",
+                      "    pm.expect(jsonData.error[\"LoginRequestModel.email\"])\r",
+                      "        .to.eql(\"email is a required field\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"\",\r\n    \"password\": \"gggblllooono11\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_011",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Parse response\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "// Status Code\r",
+                      "pm.test(\"Status code should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Status\r",
+                      "pm.test(\"Status should be error\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Application Status Code\r",
+                      "pm.test(\"Application status_code should be 400\", function () {\r",
+                      "    pm.expect(response.status_code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Message\r",
+                      "pm.test(\"Message should be Validation failed\", function () {\r",
+                      "    pm.expect(response.message).to.eql(\"Validation failed\");\r",
+                      "});\r",
+                      "\r",
+                      "// Password Validation\r",
+                      "pm.test(\"Password required validation should exist\", function () {\r",
+                      "    pm.expect(response.error[\"LoginRequestModel.password\"])\r",
+                      "        .to.eql(\"password is a required field\");\r",
+                      "});\r",
+                      "\r",
+                      "// No Access Token\r",
+                      "pm.test(\"Access token should not exist\", function () {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"jay78000@gmail.com\",\r\n    \"password\": \"\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_012",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Parse response\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "// HTTP Status\r",
+                      "pm.test(\"HTTP Status should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Application Status\r",
+                      "pm.test(\"Application status should be error\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Application Status Code\r",
+                      "pm.test(\"Application status_code should be 400\", function () {\r",
+                      "    pm.expect(response.status_code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Validation Message\r",
+                      "pm.test(\"Message should be Validation failed\", function () {\r",
+                      "    pm.expect(response.message).to.eql(\"Validation failed\");\r",
+                      "});\r",
+                      "\r",
+                      "// Email Validation\r",
+                      "pm.test(\"Email required validation exists\", function () {\r",
+                      "    pm.expect(response.error)\r",
+                      "        .to.have.property(\"LoginRequestModel.email\");\r",
+                      "});\r",
+                      "\r",
+                      "// Password Validation\r",
+                      "pm.test(\"Password required validation exists\", function () {\r",
+                      "    pm.expect(response.error)\r",
+                      "        .to.have.property(\"LoginRequestModel.password\");\r",
+                      "});\r",
+                      "\r",
+                      "// Validation Messages\r",
+                      "pm.test(\"Email validation message is correct\", function () {\r",
+                      "    pm.expect(response.error[\"LoginRequestModel.email\"])\r",
+                      "        .to.eql(\"email is a required field\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Password validation message is correct\", function () {\r",
+                      "    pm.expect(response.error[\"LoginRequestModel.password\"])\r",
+                      "        .to.eql(\"password is a required field\");\r",
+                      "});\r",
+                      "\r",
+                      "// Ensure no access token is returned\r",
+                      "pm.test(\"Access token should not exist\", function () {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"\",\r\n    \"password\": \"\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_013",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Parse response\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "// HTTP Status\r",
+                      "pm.test(\"HTTP Status should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Response Status\r",
+                      "pm.test(\"Status should be error\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Application Status Code\r",
+                      "pm.test(\"Application status_code should be 400\", function () {\r",
+                      "    pm.expect(response.status_code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Error Message\r",
+                      "pm.test(\"Message should be invalid credentials\", function () {\r",
+                      "    pm.expect(response.message).to.eql(\"invalid credentials\");\r",
+                      "});\r",
+                      "\r",
+                      "// Error Object Exists\r",
+                      "pm.test(\"Error object exists\", function () {\r",
+                      "    pm.expect(response.error).to.be.an(\"object\");\r",
+                      "});\r",
+                      "\r",
+                      "// No Access Token\r",
+                      "pm.test(\"Access token should not exist\", function () {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"jay78000gmail.com\",\r\n    \"password\": \"gggblllooono11\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_014",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Parse response\r",
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "// HTTP Status\r",
+                      "pm.test(\"HTTP Status should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Response Status\r",
+                      "pm.test(\"Status should be error\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Application Status Code\r",
+                      "pm.test(\"Application status_code should be 400\", function () {\r",
+                      "    pm.expect(response.status_code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Message\r",
+                      "pm.test(\"Message should be invalid credentials\", function () {\r",
+                      "    pm.expect(response.message).to.eql(\"invalid credentials\");\r",
+                      "});\r",
+                      "\r",
+                      "// No access token\r",
+                      "pm.test(\"Access token should not exist\", function () {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"   jay78000@gmail.com   \",\r\n    \"password\": \"gggblllooono11\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_015",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "// HTTP Status\r",
+                      "pm.test(\"HTTP Status should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Status\r",
+                      "pm.test(\"Status should be error\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Status Code\r",
+                      "pm.test(\"Application status code should be 400\", function () {\r",
+                      "    pm.expect(response.status_code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Message\r",
+                      "pm.test(\"Message should be invalid email and password supplied\", function () {\r",
+                      "    pm.expect(response.message).to.eql(\"invalid email and password supplied\");\r",
+                      "});\r",
+                      "\r",
+                      "// Error Object\r",
+                      "pm.test(\"Error object should exist\", function () {\r",
+                      "    pm.expect(response.error).to.be.an(\"object\");\r",
+                      "});\r",
+                      "\r",
+                      "// No Access Token\r",
+                      "pm.test(\"Access token should not exist\", function () {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"jay78000@gmail.com\",\r\n    \"password\": \"      \"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_016",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "// HTTP Status\r",
+                      "pm.test(\"HTTP Status should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Status\r",
+                      "pm.test(\"Status should be error\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Application Status Code\r",
+                      "pm.test(\"Application status_code should be 400\", function () {\r",
+                      "    pm.expect(response.status_code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Message\r",
+                      "pm.test(\"Message should be invalid credentials\", function () {\r",
+                      "    pm.expect(response.message).to.eql(\"invalid credentials\");\r",
+                      "});\r",
+                      "\r",
+                      "// Error Object\r",
+                      "pm.test(\"Error object exists\", function () {\r",
+                      "    pm.expect(response.error).to.be.an(\"object\");\r",
+                      "});\r",
+                      "\r",
+                      "// No Access Token\r",
+                      "pm.test(\"Access token should not be returned\", function () {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@gmail.com\",\r\n    \"password\": \"gggblllooono11\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_017",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "// HTTP Status\r",
+                      "pm.test(\"HTTP Status should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Status\r",
+                      "pm.test(\"Status should be error\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Application Status Code\r",
+                      "pm.test(\"Application status_code should be 400\", function () {\r",
+                      "    pm.expect(response.status_code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Message\r",
+                      "pm.test(\"Message should be invalid email and password supplied\", function () {\r",
+                      "    pm.expect(response.message).to.eql(\"invalid email and password supplied\");\r",
+                      "});\r",
+                      "\r",
+                      "// Error Object\r",
+                      "pm.test(\"Error object exists\", function () {\r",
+                      "    pm.expect(response.error).to.be.an(\"object\");\r",
+                      "});\r",
+                      "\r",
+                      "// No Access Token\r",
+                      "pm.test(\"No access token should be returned\", function () {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"jay78000@gmail.com\",\r\n    \"password\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_018",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "// HTTP Status\r",
+                      "pm.test(\"HTTP Status should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Status\r",
+                      "pm.test(\"Status should be error\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Status Code\r",
+                      "pm.test(\"Application status code should be 400\", function () {\r",
+                      "    pm.expect(response.status_code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Authentication Rejected\r",
+                      "pm.test(\"Authentication should fail\", function () {\r",
+                      "    pm.expect(response.message)\r",
+                      "        .to.eql(\"invalid email and password supplied\");\r",
+                      "});\r",
+                      "\r",
+                      "// No Access Token\r",
+                      "pm.test(\"Access token should not exist\", function () {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"jay78000@gmail.com\",\r\n    \"password\": \"' OR '1'='1\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_019",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "// HTTP Status\r",
+                      "pm.test(\"HTTP Status should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Status\r",
+                      "pm.test(\"Status should be error\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Status Code\r",
+                      "pm.test(\"Application status code should be 400\", function () {\r",
+                      "    pm.expect(response.status_code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Message\r",
+                      "pm.test(\"Message should be invalid credentials\", function () {\r",
+                      "    pm.expect(response.message).to.eql(\"invalid credentials\");\r",
+                      "});\r",
+                      "\r",
+                      "// No Token\r",
+                      "pm.test(\"Access token should not exist\", function () {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"<script>alert('XSS')</script>\",\r\n    \"password\": \"Password123\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_020",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "// HTTP Status\r",
+                      "pm.test(\"HTTP Status should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Status\r",
+                      "pm.test(\"Status should be error\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Status Code\r",
+                      "pm.test(\"Application status code should be 400\", function () {\r",
+                      "    pm.expect(response.status_code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Message\r",
+                      "pm.test(\"Message should be invalid credentials\", function () {\r",
+                      "    pm.expect(response.message).to.eql(\"invalid credentials\");\r",
+                      "});\r",
+                      "\r",
+                      "// No Access Token\r",
+                      "pm.test(\"Access token should not exist\", function () {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"JAY78000@GMAIL.COM\",\r\n    \"password\": \"gggblllooono11\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_021",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "// HTTP Status\r",
+                      "pm.test(\"HTTP Status should be 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Response Status\r",
+                      "pm.test(\"Status should be error\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Message\r",
+                      "pm.test(\"Message should be Validation failed\", function () {\r",
+                      "    pm.expect(response.message).to.eql(\"Validation failed\");\r",
+                      "});\r",
+                      "\r",
+                      "// Email Validation\r",
+                      "pm.test(\"Email required field exists\", function () {\r",
+                      "    pm.expect(response.error[\"LoginRequestModel.email\"])\r",
+                      "        .to.eql(\"email is a required field\");\r",
+                      "});\r",
+                      "\r",
+                      "// Password Validation\r",
+                      "pm.test(\"Password required field exists\", function () {\r",
+                      "    pm.expect(response.error[\"LoginRequestModel.password\"])\r",
+                      "        .to.eql(\"password is a required field\");\r",
+                      "});\r",
+                      "\r",
+                      "// No Access Token\r",
+                      "pm.test(\"Access token should not exist\", function () {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_022",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"HTTP Status is 200\", () => {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Status is success\", () => {\r",
+                      "    pm.expect(response.status).to.eql(\"success\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Access Token exists\", () => {\r",
+                      "    pm.expect(response.data.access_token).to.exist;\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Access Token is not empty\", () => {\r",
+                      "    pm.expect(response.data.access_token).to.not.be.empty;\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Access Token Expiration exists\", () => {\r",
+                      "    pm.expect(response.data.access_token_expires_in).to.exist;\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Notification Token exists\", () => {\r",
+                      "    pm.expect(response.data.notification_token).to.exist;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"jay78000@gmail.com\",\r\n    \"password\": \"gggblllooono11\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_024",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"HTTP Status is 400\", () => {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Status is error\", () => {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Message exists\", () => {\r",
+                      "    pm.expect(response.message).to.exist;\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Access token does not exist\", () => {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"jay78000@gmail.com\",\r\n    \"password\": \"WrongPassword123!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_009",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 400\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Response status is error\", function () {\r",
+                      "    var jsonData = pm.response.json();\r",
+                      "    pm.expect(jsonData.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Message is invalid credentials\", function () {\r",
+                      "    var jsonData = pm.response.json();\r",
+                      "    pm.expect(jsonData.message).to.eql(\"invalid credentials\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"No access token is returned\", function () {\r",
+                      "    var jsonData = pm.response.json();\r",
+                      "    pm.expect(jsonData.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"wronguser123@gmail.com\",\r\n    \"password\": \"WrongPassword123!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_025",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"HTTP Status is 400\", () => {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Status is error\", () => {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Message exists\", () => {\r",
+                      "    pm.expect(response.message).to.exist;\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Access token does not exist\", () => {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"jay78000@gmail.com\",\r\n    \"password\": \"WrongPassword123!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_026",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"HTTP Status is 400\", () => {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Validation message exists\", () => {\r",
+                      "    pm.expect(response.message).to.eql(\"Validation failed\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Email validation exists\", () => {\r",
+                      "    pm.expect(response.error[\"LoginRequestModel.email\"]).to.exist;\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Password validation exists\", () => {\r",
+                      "    pm.expect(response.error[\"LoginRequestModel.password\"]).to.exist;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_023",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "const response = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"User object exists\", () => {\r",
+                      "    pm.expect(response.data.user).to.exist;\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"User ID exists\", () => {\r",
+                      "    pm.expect(response.data.user.id).to.exist;\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Email matches request\", () => {\r",
+                      "    pm.expect(response.data.user.email)\r",
+                      "        .to.eql(\"jay78000@gmail.com\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"First Name exists\", () => {\r",
+                      "    pm.expect(response.data.user.first_name).to.exist;\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Last Name exists\", () => {\r",
+                      "    pm.expect(response.data.user.last_name).to.exist;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"jay78000@gmail.com\",\r\n    \"password\": \"gggblllooono11\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_027",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "const jsonData = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Login successful\", function () {\r",
+                      "    pm.expect(jsonData.status).to.eql(\"success\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Access token exists\", function () {\r",
+                      "    pm.expect(jsonData.data.access_token).to.not.be.undefined;\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"User object exists\", function () {\r",
+                      "    pm.expect(jsonData.data.user).to.be.an(\"object\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"jay78000@gmail.com\",\r\n    \"password\": \"gggblllooono11\",\r\n    \"favorite_color\": \"Blue\",\r\n    \"country\": \"Nigeria\",\r\n    \"age\": 25\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_028",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200\", function () {\r",
+                      "    pm.response.to.have.status(200);\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Response time is below 2000ms\", function () {\r",
+                      "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                      "});\r",
+                      "\r",
+                      "const jsonData = pm.response.json();\r",
+                      "\r",
+                      "pm.test(\"Login successful\", function () {\r",
+                      "    pm.expect(jsonData.status).to.eql(\"success\");\r",
+                      "});\r",
+                      "\r",
+                      "pm.test(\"Access token returned\", function () {\r",
+                      "    pm.expect(jsonData.data.access_token).to.not.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"jay78000@gmail.com\",\r\n    \"password\": \"gggblllooono11\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "TC_AUTH_009",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// NOTE:\r",
+                      "// API currently returns HTTP 400 instead of the documented HTTP 401.\r",
+                      "// This behavior is tracked in BUG_AUTH_001.\r",
+                      "\r",
+                      "// Verify HTTP Status Code\r",
+                      "pm.test(\"Status code is 400 Bad Request\", function () {\r",
+                      "    pm.response.to.have.status(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Verify response is JSON\r",
+                      "pm.test(\"Response is JSON\", function () {\r",
+                      "    pm.response.to.be.json;\r",
+                      "});\r",
+                      "\r",
+                      "var response = pm.response.json();\r",
+                      "\r",
+                      "// Verify response status\r",
+                      "pm.test(\"Status is error\", function () {\r",
+                      "    pm.expect(response.status).to.eql(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Verify application status code\r",
+                      "pm.test(\"Application status_code is 400\", function () {\r",
+                      "    pm.expect(response.status_code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Verify error message\r",
+                      "pm.test(\"Message is 'invalid credentials'\", function () {\r",
+                      "    pm.expect(response.message).to.eql(\"invalid credentials\");\r",
+                      "});\r",
+                      "\r",
+                      "// Verify no access token is returned\r",
+                      "pm.test(\"Access token is not returned\", function () {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});\r",
+                      "\r",
+                      "// Verify error object exists\r",
+                      "pm.test(\"Error object exists\", function () {\r",
+                      "    pm.expect(response.error).to.be.an(\"object\");\r",
+                      "});\r",
+                      "\r",
+                      "// Verify user object is not returned\r",
+                      "pm.test(\"User object is not returned\", function () {\r",
+                      "    pm.expect(response.data).to.be.undefined;\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"wronguser123@gmail.com\",\r\n    \"password\": \"WrongPassword123!\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": []
+    }
+  ]
+}
